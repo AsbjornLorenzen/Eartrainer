@@ -72,7 +72,7 @@ class Ui_mainmenu(object):
     # setupUi
 
     def retranslateUi(self, mainmenu):
-        mainmenu.setWindowTitle(QCoreApplication.translate("mainmenu", u"mainmenu", None))
+        mainmenu.setWindowTitle(QCoreApplication.translate("Eartrainer", u"Eartrainer", None))
         self.label.setText(QCoreApplication.translate("mainmenu", u"Eartrainer", None))
         self.label_2.setText(QCoreApplication.translate("mainmenu", u"Select exercise type:", None))
         self.pushButton_2.setText(QCoreApplication.translate("mainmenu", u"Chords", None))
