@@ -1,17 +1,16 @@
 from trainingmodes import trainer
 from PySide6.QtCore import Qt
-from PySide6.QtWidgets import QMainWindow, QLabel,QWidget,QPushButton, QVBoxLayout,QHBoxLayout, QApplication, QGridLayout, QToolBar, QToolButton, QCheckBox, QComboBox
-from PySide6.QtGui import QIcon, QAction, QPixmap, QFont
+from PySide6.QtWidgets import QLabel,QWidget,QPushButton, QVBoxLayout,QHBoxLayout, QGridLayout
+from PySide6.QtGui import QPixmap, QFont
 
-class exercise(): #Instead if intervalguesser and chordguesser
+class exercise():
     def __init__(self,main,mode,category,multiple=False):
         super().__init__()
         self.mode = mode
         self.category = category
-        self.trainer = trainer(self.mode,self.category,multiple) #These are only read when exercise is initialized.
+        self.trainer = trainer(self.mode,self.category,multiple)
         self.main = main
         self.main.resize(600,600)
-        multiple = True
         if multiple:
             self.guesslist = []
         self.buildwindow()
@@ -49,10 +48,17 @@ class exercise(): #Instead if intervalguesser and chordguesser
         self.arpeggiate = QPushButton()
         if self.mode =='solfa':
             self.arpeggiate.setText('Play cadence')
-            self.arpeggiate.clicked.connect(lambda: self.trainer.playcadence()) 
+            self.arpeggiate.clicked.connect(lambda: self.trainer.playcadence())
         else:
             self.arpeggiate.setText('Arpeggiate')
             self.arpeggiate.clicked.connect(lambda *state,arp=True:self.trainer.playcurrent(arp))
+        
+        self.back_to_previous = QPushButton()
+        self.back_to_previous.setText('Play previous')
+        self.back_to_previous.clicked.connect(self.trainer.play_previous)
+        self.back_to_previous.setEnabled(False)
+
+        self.replaylo.addWidget(self.back_to_previous)
         self.replaylo.addWidget(self.replay)
         self.replaylo.addWidget(self.arpeggiate)
         self.mainlo.addLayout(self.replaylo)
@@ -108,6 +114,7 @@ class exercise(): #Instead if intervalguesser and chordguesser
                 currentcolumn += 1
 
     def makeguess(self,guess):
+        #Called when the user enters an answer. Records whether it is correct, and starts a new round
         if self.trainer.multiple:
             self.makemultipleguess(guess)
         else:
@@ -119,6 +126,7 @@ class exercise(): #Instead if intervalguesser and chordguesser
                 self.status.setText('Wrong! That was a {subject}'.format(subject=self.trainer.subject))
                 self.statusicon.setPixmap(QPixmap('images/cross.png'))
                 self.trainer.incorrectguesses += 1
+            self.back_to_previous.setEnabled(True) #Button is enabled after first round
             self.updatedata()
             self.trainer.delayed_newround()
         
