@@ -95,7 +95,8 @@ class trainer():
         self.newround()
 
     def newround(self):
-        self.previous_subject = (self.subject,self.bottomnote)
+        if (self.correctguesses + self.incorrectguesses > 0): 
+            self.previous_subject = (self.subject,self.bottomnote)
         self.choosesubject()
         if self.mode =='solfa' and ((self.correctguesses + self.incorrectguesses) == 0):
             self.firstthread = threading.Thread(target = self.playcadencethencurrent,args=())
