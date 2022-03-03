@@ -4,11 +4,11 @@ from PySide6.QtWidgets import QLabel,QWidget,QPushButton, QVBoxLayout,QHBoxLayou
 from PySide6.QtGui import QPixmap, QFont
 
 class exercise():
-    def __init__(self,main,mode,category,multiple=False):
+    def __init__(self,main,mode,category,multiple=False,arpeggiate=False):
         super().__init__()
         self.mode = mode
         self.category = category
-        self.trainer = trainer(self.mode,self.category,multiple)
+        self.trainer = trainer(self.mode,self.category,multiple,arpeggiate)
         self.main = main
         self.main.resize(600,600)
         if multiple:

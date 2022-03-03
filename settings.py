@@ -92,10 +92,14 @@ class settings(QMainWindow):
 
     def openex(self):
         #opens the exercise
+        if self.ui.checkBox.isChecked():
+            arpeggiate = True
+        else:
+            arpeggiate = False
         if self.mode == 'intervals':
-            self.main.openintervalex(self.category)
+            self.main.openintervalex(self.category,arpeggiate)
         elif self.mode == 'chords':
-            self.main.openchordex(self.category)
+            self.main.openchordex(self.category,arpeggiate)
         elif self.mode == 'scales':
             self.main.openscaleex(self.category)
         elif self.mode == 'solfa':

@@ -14,7 +14,6 @@ from PySide6.QtGui import QIcon, QAction, QPixmap
 from functools import partial
 import sys
 
-
 class MainWindow(QMainWindow):
     def __init__(self):
         super().__init__()
@@ -46,14 +45,14 @@ class MainWindow(QMainWindow):
     def openchordsettings(self):
         self.cs = settings(self,'chords')
 
-    def openchordex(self,category):
-        self.ex = exercise(self,'chords',category)
+    def openchordex(self,category,arpeggiate=False):
+        self.ex = exercise(self,'chords',category,arpeggiate=arpeggiate)
     
     def openintervalsettings(self):
         self.intervalsettings = settings(self,'intervals')
 
-    def openintervalex(self,category):
-        self.ex = exercise(self,'intervals',category)
+    def openintervalex(self,category,arpeggiate=False):
+        self.ex = exercise(self,'intervals',category,arpeggiate=arpeggiate)
     
     def returntomenu(self):
         self.setupmenu()
@@ -63,5 +62,5 @@ if __name__ == '__main__':
     app = QApplication(sys.argv)
     window = MainWindow()
     window.show()
-    app.exec_()
+    app.exec()
 

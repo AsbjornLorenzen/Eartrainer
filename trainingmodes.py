@@ -5,9 +5,9 @@ import sys
 import threading
 
 class trainer():
-    def __init__(self,mode,category,multiple=False):
+    def __init__(self,mode,category,multiple=False,arpeggiate=False):
         self.piano = piano()
-        self.arpeggiate = False
+        self.arpeggiate = arpeggiate
         self.category = category
         self.correctguesses = 0
         self.incorrectguesses = 0
@@ -21,7 +21,7 @@ class trainer():
         if self.mode == 'scales':
             self.possibilities = self.category.scales
         if self.mode == 'solfa':
-            self.key = self.piano.allnotes[random.randint(17,28)]
+            self.bottomnote = self.piano.allnotes[random.randint(17,28)] #In solfa, bottomnote is the key
             self.possibilities = self.category.solfa
 
 
@@ -30,19 +30,17 @@ class trainer():
             arpeggiate = self.arpeggiate
         if not hasattr(self,'octaves'):
             self.octaves = '0000000'
-        if self.mode == 'solfa':
-            self.bottomnote = self.key #In solfa, bottomnote is the key
-        self.playthread = threading.Thread(target = self.piano.playsubject,args=(self.mode,self.subject,self.bottomnote,arpeggiate,self.octaves)) #REMEMBER: PASS MODE AS VARIABLE
+        self.playthread = threading.Thread(target = self.piano.playsubject,args=(self.mode,self.subject,self.bottomnote,arpeggiate,self.octaves))
         self.playthread.start()
 
     def playcadencethencurrent(self):
         if not hasattr(self,'octaves'):
             self.octaves = '0000000'
-        self.piano.playcadence(self.key,True)
+        self.piano.playcadence(self.bottomnote)
         self.piano.playsubject(self.mode,self.subject,self.bottomnote,octave=self.octaves)
 
     def playcadence(self):
-        cthread = threading.Thread(target = self.piano.playcadence,args=(self.key,True))
+        cthread = threading.Thread(target = self.piano.playcadence,args=(self.bottomnote))
         cthread.start()
 
     def play_previous(self):
